@@ -44,10 +44,18 @@ module.exports = function(server) {
 
         socket.on('doPlayer', function(playerInfo) {
             var roomId = playerInfo.roomId;
-            var blockIndex = playerInfo.blockIndex;
+            var blockIndex = playerInfo.blockIndex; //변경한거 기억
 
             console.log('Player action in room:', roomId, 'Block index:', blockIndex);
             socket.to(roomId).emit('doOpponent', {blockIndex: blockIndex});
         });
+
+        socket.on('disconnect', function(reason){
+            console.log('Disconnected' + socket.id + 'Reason' + reason);
+        });
+
+        // socket.on("disconnect", function(reason){
+        //     console.log('Disconnected' + socket.id + 'Reason' + reason);
+        // }); ""로 사용을 하면 1.1.5 버전에서도 작동이 된다고 한다.
     });
 };
